@@ -40,11 +40,12 @@ foreign key (username) references Users(mobile),
 bus varchar(7) not null,
 foreign key (bus) references Busses(regNo),
 fromDate datetime not null,
-toDate datetime not null
+toDate datetime not null,
+UNIQUE KEY bus (bus, fromDate, toDate)
 );
 -- Test data --
 
--- ComCenters -- 
+-- ComCenters --
 INSERT INTO ComCenters VALUES ('Lokalcenter Marselis','Marselis Boulevard 94 A, 8000 Aarhus C','Rigmor',24784167);
 INSERT INTO ComCenters VALUES ('Sundheds- og Kulturcenter Frederiksbjerg & Langenæs','Ankersgade 21, 8000 Aarhus C','Rigmor',24784167);
 INSERT INTO ComCenters VALUES ('Lokalcenter Dalgas','Dalgas Avenue 54, 8000 Aarhus C','Rigmor',24784167);
