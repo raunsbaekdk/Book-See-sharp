@@ -19,7 +19,7 @@ namespace WebAPI.Models {
         }
 
         public IEnumerable<Reservation> GetAllReservations() {
-            sqlCommand = new SqlCommand("SELECT * FROM Reservation",sqlConnection);
+            sqlCommand = new SqlCommand("SELECT * FROM Reservations",sqlConnection);
             List<Reservation> reservations = null;
             try {
                 reservations = new List<Reservation>();
@@ -40,7 +40,7 @@ namespace WebAPI.Models {
         }
 
         private Bus GetBus(String regNo) {
-            sqlCommand = new SqlCommand("SELECT * FROM Busses WHERE regNo="+regNo,sqlConnection);
+            sqlCommand = new SqlCommand("SELECT * FROM Busses WHERE regNo='"+regNo+"'",sqlConnection);
             SqlDataReader reader = null;
             Bus b = null;
             try {
@@ -91,7 +91,7 @@ namespace WebAPI.Models {
         }
 
         public Reservation PostReservation(Reservation reservation) {
-            sqlCommand = new SqlCommand("INSERT INTO Reservation VALUES(@username,@bus,@fromDate,@toDate);");
+            sqlCommand = new SqlCommand("INSERT INTO Reservations VALUES(@username,@bus,@fromDate,@toDate);");
 
             // Username
             sqlParameter = new SqlParameter("@username", SqlDbType.Int);
@@ -123,7 +123,7 @@ namespace WebAPI.Models {
         }
 
         public Reservation GetReservation(int id) {
-            sqlCommand = new SqlCommand("SELECT * FROM Reservation WHERE id="+id,sqlConnection);
+            sqlCommand = new SqlCommand("SELECT * FROM Reservations WHERE id="+id,sqlConnection);
             Reservation r = null;
             try {
                 reader = sqlCommand.ExecuteReader();
