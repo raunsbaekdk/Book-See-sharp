@@ -135,17 +135,26 @@
                 return false;
             });
         });
+        function getBusOptions(value)
+        {
+            var options = "";
+            jQuery.each(value, function (key, value) {
+                options += "<option value=\"" + value.RegNo + "\">" + value.RegNo + "</option>";
+            });
+            return options;
+        }
         function getAllBusses() {
             jQuery.ajax({
                 type: "GET",
                 dataType: "json",
-                url: "http://sum.gim.dk/api/comcenter/getAllcomCenters",
+                url: "http://sum.gim.dk/api/comcenter/getallcomcenters",
                 success: function (b) {
                     jQuery.each(b, function (key, value) {
-                        jQuery("#busses").append(jQuery("<option></option>").text(value.Name));
-                        jQuery.each(value.Busses, function (bkey, bvalue) {
-                            jQuery("#busses").append(jQuery("<option></option>").attr("value", value.RegNo).text("&nbsp;&nbsp;" + bvalue.RegNo));
-                        });
+                        jQuery("#busses").append(jQuery("<optgroup></optgroup>").attr("label", value.Name).
+                            html(
+                                getBusOptions(value.Busses)
+                            )
+                        );
                     });
                 }
             });
