@@ -49,10 +49,10 @@
                     <h2>Vælg fra</h2>
                     <div class="row">
                         <div class="col-sm-6">
-                            <input id="txtFromDate" type="date" class="form-control" placeholder="dd/mm-YYYY" />
+                            <input id="txtFromDate" type="date" class="form-control" placeholder="dd/mm-YYYY" DISABLED />
                         </div>
                         <div class="col-sm-6">
-                            <input id="txtFromTime" type="time" class="form-control" placeholder="HH:mm" />
+                            <input id="txtFromTime" type="time" class="form-control" placeholder="HH:mm" DISABLED />
                         </div>
                     </div>
                     <p></p>
@@ -66,10 +66,10 @@
                     <h2>Vælg til</h2>
                     <div class="row">
                         <div class="col-sm-6">
-                            <input id="txtToDate" type="date" class="form-control" placeholder="dd/mm-YYYY" />
+                            <input id="txtToDate" type="date" class="form-control" placeholder="dd/mm-YYYY" DISABLED />
                         </div>
                         <div class="col-sm-6">
-                            <input id="txtToTime" type="time" class="form-control" placeholder="HH:mm" />
+                            <input id="txtToTime" type="time" class="form-control" placeholder="HH:mm" DISABLED />
                         </div>
                     </div>
                     <p></p>
