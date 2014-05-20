@@ -9,7 +9,7 @@ using System.Web;
 using Models;
 
 namespace WebAPI.Models {
-    public class UserRepository : IUserRespository {
+    public class UserRepository : IUserRepository {
         private SqlConnection sqlConnection;
         private SqlCommand sqlCommand;
         private SqlDataReader reader;

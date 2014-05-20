@@ -81,7 +81,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\IRespository.cs" />
+    <Compile Include="Controllers\BusController.cs" />
+    <Compile Include="Models\BusRepository.cs" />
+    <Compile Include="Models\IRepository.cs" />
     <Compile Include="Models\SQL.cs" />
     <Compile Include="Models\UserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -89,6 +91,7 @@
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
+    <None Include="Properties\PublishProfiles\Sum.Gim.Dk Stefan.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

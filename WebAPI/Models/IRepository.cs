@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Models;
 
 namespace WebAPI.Models {
-    interface IUserRespository {
+    interface IUserRepository {
 
         IEnumerable<User> GetAllUsers();
         User Get(int username);
