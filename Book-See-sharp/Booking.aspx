@@ -139,10 +139,13 @@
             jQuery.ajax({
                 type: "GET",
                 dataType: "json",
-                url: "http://sum.gim.dk/api/bus/getAllBusses",
+                url: "http://sum.gim.dk/api/comcenter/getAllcomCenters",
                 success: function (b) {
                     jQuery.each(b, function (key, value) {
-                        jQuery("#busses").append(jQuery("<option></option>").attr("value", key.RegNo).text(value.RegNo));
+                        jQuery("#busses").append(jQuery("<option></option>").text(value.Name));
+                        jQuery.each(value.Busses, function (bkey, bvalue) {
+                            jQuery("#busses").append(jQuery("<option></option>").attr("value", value.RegNo).text("&nbsp;&nbsp;" + bvalue.RegNo));
+                        });
                     });
                 }
             });
