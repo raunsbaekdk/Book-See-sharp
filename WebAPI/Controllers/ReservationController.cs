@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -14,13 +15,12 @@ namespace WebAPI.Controllers {
 
         public IEnumerable<Reservation> GetAllReservations() {
             IEnumerable<Reservation> list = Respository.GetAllReservations();
-            //if(list == null) {
-            //    throw new HttpRequestException(HttpStatusCode.NotFound.ToString());
-            //}
+            if(list == null) {
+                throw new HttpRequestException(HttpStatusCode.NotFound.ToString());
+            }
             return list;
         }
 
-        [Route("{id:int}")]
         public void DeleteReservation(int id) {
             Reservation res = Respository.GetReservation(id);
             if(res == null) {
@@ -29,22 +29,32 @@ namespace WebAPI.Controllers {
             Respository.DeleteReservation(id);
         }
 
-        
-        public Reservation PostReservation(Reservation reservation) {
+        public IEnumerable<Reservation> GetBusReservation(String regNo, DateTime date) {
+            IEnumerable<Reservation> enumerable = Respository.GetBusReservation(regNo, date);
+            if(enumerable == null) {
+                throw new HttpRequestException(HttpStatusCode.NotFound.ToString());
+            }
+            return enumerable;
+        }
+            
+        [HttpPost]
+        public Reservation PostReservation(int username, string busId, DateTime fromDate, DateTime toDate) {
+            Reservation reservation = new Reservation {
+                Bus = new Bus() {RegNo = busId},
+                ToDate = toDate,
+                FromDate = fromDate,
+                User = new User() {Mobile = username}
+            };
+
             Reservation res = Respository.PostReservation(reservation);
             if(res == null) {
-                throw new HttpRequestException(HttpStatusCode.NotFound.ToString());
+                //throw new HttpRequestException(HttpStatusCode.NotFound.ToString());
             }
             return res;
         }
 
-        [Route("{id:int}")]
-        public Reservation GetReservation(int id) {
+        public void GetReservation(int id) {
             Reservation res = Respository.GetReservation(id);
-            if(res == null) {
-                throw new HttpRequestException(HttpStatusCode.NotFound.ToString());
-            }
-            return res;
         }
     }
 }

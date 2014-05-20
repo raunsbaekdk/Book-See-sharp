@@ -5,6 +5,8 @@ using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
 using System.Web;
+using System.Web.Http;
+using System.Web.Http.Results;
 using Models;
 
 namespace WebAPI.Models {
@@ -38,6 +40,39 @@ namespace WebAPI.Models {
             }
             return reservations;
         }
+
+        public IEnumerable<Reservation> GetBusReservation(String regNo, DateTime date) {
+            sqlCommand = new SqlCommand("SELECT * FROM Reservations r WHERE bus='AB12345' AND CONVERT(char(10),r.fromDate,126)='2014-05-20'",sqlConnection);
+            List<Reservation> list = new List<Reservation>();
+
+            // regno
+            sqlParameter = new SqlParameter("@regNo",SqlDbType.NVarChar);
+            sqlParameter.Value = regNo;
+            sqlCommand.Parameters.Add(sqlParameter);
+
+            // date
+            sqlParameter = new SqlParameter("@date", SqlDbType.DateTime);
+            sqlParameter.Value = date;
+            sqlCommand.Parameters.Add(sqlParameter);
+
+            try {
+                reader = sqlCommand.ExecuteReader();
+                while(reader.Read()) {
+                    Reservation r = new Reservation();
+                    r.Id = Convert.ToInt32(reader[0]);
+                    r.FromDate = Convert.ToDateTime(reader[4]);
+                    r.ToDate = Convert.ToDateTime(reader[3]);
+                    r.User = GetUser(Convert.ToInt32(reader[1]));
+                    r.Bus = GetBus(Convert.ToString(reader[2]));
+                    list.Add(r);
+                }
+            } catch(Exception e) {
+                Debug.WriteLine(e.Message);
+            } finally {
+                reader.Close();
+            }
+            return list;
+        } 
 
         private Bus GetBus(String regNo) {
             sqlCommand = new SqlCommand("SELECT * FROM Busses WHERE regNo='"+regNo+"'",sqlConnection);
@@ -91,7 +126,7 @@ namespace WebAPI.Models {
         }
 
         public Reservation PostReservation(Reservation reservation) {
-            sqlCommand = new SqlCommand("INSERT INTO Reservations VALUES(@username,@bus,@fromDate,@toDate);");
+            sqlCommand = new SqlCommand("INSERT INTO Reservations VALUES(@username,@bus,@fromDate,@toDate);",sqlConnection);
 
             // Username
             sqlParameter = new SqlParameter("@username", SqlDbType.Int);
@@ -112,14 +147,16 @@ namespace WebAPI.Models {
             sqlParameter = new SqlParameter("@toDate", SqlDbType.DateTime);
             sqlParameter.Value = reservation.ToDate;
             sqlCommand.Parameters.Add(sqlParameter);
+
             int id = -1;
             try {
-                id = Convert.ToInt32(sqlCommand.ExecuteScalar());
+                id = sqlCommand.ExecuteNonQuery();
+
+                Debug.WriteLine(id);
             } catch(Exception e) {
                 Debug.WriteLine(e.Message);
             }
-
-            return GetReservation(id);
+            return reservation;
         }
 
         public Reservation GetReservation(int id) {
