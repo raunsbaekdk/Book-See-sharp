@@ -8,7 +8,7 @@ namespace WebAPI.Models {
     public class Sql {
         private static Sql sql;
         private static SqlConnection sqlConnection;
-        private const String ConnectionString = "Data Source=gim.dk;database=Sum;User id=Sum;Password=sum1234";
+        private const String ConnectionString = "Data Source=gim.dk;database=Sum;User id=Sum;Password=sum1234;MultipleActiveResultSets=true";
 
         private Sql() {
             sqlConnection = new SqlConnection(ConnectionString);
