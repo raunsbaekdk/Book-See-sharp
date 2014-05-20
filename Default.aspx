@@ -9,7 +9,7 @@
 <body>
     <form id="form1" runat="server">
     <div>
-        <p>My first website</p>
+        <p>Min C# ASP.NET side.</p>
     </div>
     </form>
 </body>
