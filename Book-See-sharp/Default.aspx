@@ -13,9 +13,14 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <style>
+        body {
+            background-color: #eee;
+        }
+    </style>
 </head>
 <body>
-    <div class="container login">
+    <div class="container">
         <div class="col-sm-4 col-sm-offset-4">
             <div class="panel panel-default">
                 <div class="panel-heading">
