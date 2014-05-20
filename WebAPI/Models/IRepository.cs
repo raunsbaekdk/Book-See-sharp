@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Models;
 
 namespace WebAPI.Models {
@@ -11,8 +7,8 @@ namespace WebAPI.Models {
         IEnumerable<User> GetAllUsers();
         User Get(int username);
         User Add(User user);
-        void Remove(int mobile);
-        bool Update(User user);
+        void DeleteUser(int mobile);
+        bool PutUser(User user);
     }
 
     interface IBusRespository {
@@ -21,8 +17,8 @@ namespace WebAPI.Models {
 
     interface IReservationRespository {
         IEnumerable<Reservation> GetAllReservations();
-        void Remove(int reservationId);
-        Reservation Add(Reservation reservation);
+        void DeleteReservation(int reservationId);
+        Reservation PostReservation(Reservation reservation);
         Reservation GetReservation(int id);
     }
 

@@ -20,8 +20,9 @@ namespace WebAPI.Models {
 
         public IEnumerable<Reservation> GetAllReservations() {
             sqlCommand = new SqlCommand("SELECT * FROM Reservation",sqlConnection);
-            List<Reservation> reservations = new List<Reservation>();
+            List<Reservation> reservations = null;
             try {
+                reservations = new List<Reservation>();
                 reader = sqlCommand.ExecuteReader();
                 while(reader.Read()) {
                     Reservation r = new Reservation();
@@ -30,6 +31,7 @@ namespace WebAPI.Models {
                     r.ToDate = Convert.ToDateTime(reader[4]);
                     r.Bus = GetBus(Convert.ToString(reader[2]));
                     r.User = GetUser(Convert.ToInt32(reader[1]));
+                    reservations.Add(r);
                 }
             } catch(Exception e) {
                 Debug.WriteLine(e.Message);                
@@ -79,7 +81,7 @@ namespace WebAPI.Models {
             return u;
         }
 
-        public void Remove(int reservationId) {
+        public void DeleteReservation(int reservationId) {
             sqlCommand = new SqlCommand("DELETE FROM Reservations WHERE id="+reservationId,sqlConnection);
             try {
                 sqlCommand.ExecuteNonQuery();
@@ -88,7 +90,7 @@ namespace WebAPI.Models {
             }
         }
 
-        public Reservation Add(Reservation reservation) {
+        public Reservation PostReservation(Reservation reservation) {
             sqlCommand = new SqlCommand("INSERT INTO Reservation VALUES(@username,@bus,@fromDate,@toDate);");
 
             // Username
@@ -121,7 +123,7 @@ namespace WebAPI.Models {
         }
 
         public Reservation GetReservation(int id) {
-            sqlCommand = new SqlCommand("SELECT * FROM Reservation WHERE ID="+id);
+            sqlCommand = new SqlCommand("SELECT * FROM Reservation WHERE id="+id,sqlConnection);
             Reservation r = null;
             try {
                 reader = sqlCommand.ExecuteReader();

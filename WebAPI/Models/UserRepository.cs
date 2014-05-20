@@ -99,7 +99,7 @@ namespace WebAPI.Models {
             return Get(user.Mobile);
         }
 
-        public void Remove(int mobile) {
+        public void DeleteUser(int mobile) {
             sqlCommand = new SqlCommand("DELETE FROM User WHERE mobile=" + mobile + ";", sqlConnection);
             try {
                 sqlCommand.ExecuteNonQuery();
@@ -108,7 +108,7 @@ namespace WebAPI.Models {
             }
         }
 
-        public bool Update(User user) {
+        public bool PutUser(User user) {
             sqlCommand =
                 new SqlCommand(
                     "UPDATE User SET mobile=@mobile,password=@password,admin=@admin,name=@name,email=@email WHERE mobile=" +
