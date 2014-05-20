@@ -1,0 +1,7 @@
+*.csproj
+*.user
+*.config
+*.cache
+bin/*
+obj/*
+Properties/*
