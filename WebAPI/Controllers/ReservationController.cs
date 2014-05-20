@@ -20,6 +20,7 @@ namespace WebAPI.Controllers {
             return list;
         }
 
+        [Route("{id:int}")]
         public void DeleteReservation(int id) {
             Reservation res = Respository.GetReservation(id);
             if(res == null) {
@@ -28,6 +29,7 @@ namespace WebAPI.Controllers {
             Respository.DeleteReservation(id);
         }
 
+        
         public Reservation PostReservation(Reservation reservation) {
             Reservation res = Respository.PostReservation(reservation);
             if(res == null) {
@@ -36,6 +38,7 @@ namespace WebAPI.Controllers {
             return res;
         }
 
+        [Route("{id:int}")]
         public Reservation GetReservation(int id) {
             Reservation res = Respository.GetReservation(id);
             if(res == null) {

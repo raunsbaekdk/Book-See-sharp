@@ -15,6 +15,5 @@ namespace WebAPI.Controllers {
         public IEnumerable<User> GetAllUsers() {
             return Respository.GetAllUsers();
         } 
-
     }
 }
