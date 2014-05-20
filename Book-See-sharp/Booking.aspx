@@ -25,7 +25,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/">Book en bus</a>
+                <a class="navbar-brand" href="/Booking.aspx">Book en bus</a>
             </div>
             <asp:Literal ID="loginLoggedin" runat="server" />
         </div>
@@ -74,7 +74,7 @@
                     </div>
                     <p></p>
                     <p>
-                        <button id="btnTo" class="btn btn-success" disabled><i class="fa fa-apple"></i>&nbsp;&nbsp;Videre</button>
+                        <button id="btnTo" class="btn btn-success" disabled><i class="fa fa-apple"></i>&nbsp;&nbsp;Reserver</button>
                         &nbsp;
                         <button id="btnLeaveTo" class="btn btn-danger hidden">Afbryd</button>
                     </p>
