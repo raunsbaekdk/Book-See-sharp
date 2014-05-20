@@ -31,58 +31,122 @@
         </div>
     </div>
     <div class="container">
-        <form runat="server">
-            <asp:Literal ID="errMessage" runat="server" />
-            <div class="row">
-                <div class="col-sm-4">
-                    <h2>Vælg bus</h2>
-                    <p>
-                        <select id="busser" class="form-control">
-                            <option value="0">---</option>
-                        </select>
-                    </p>
-                    <p>
-                        <button id="btnBusser" class="btn btn-default">Videre &raquo;</button>
-                    </p>
-                </div>
-                <div class="col-sm-4">
-                    <h2>Vælg fra</h2>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <input id="txtFromDate" type="date" class="form-control" placeholder="dd/mm-YYYY" DISABLED />
-                        </div>
-                        <div class="col-sm-6">
-                            <input id="txtFromTime" type="time" class="form-control" placeholder="HH:mm" DISABLED />
-                        </div>
-                    </div>
-                    <p></p>
-                    <p>
-                        <button id="btnFrom" class="btn btn-default" disabled>Videre &raquo;</button>
-                        &nbsp;
-                        <button id="btnLeaveFrom" class="btn btn-danger hidden">Afbryd</button>
-                    </p>
-                </div>
-                <div class="col-sm-4">
-                    <h2>Vælg til</h2>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <input id="txtToDate" type="date" class="form-control" placeholder="dd/mm-YYYY" DISABLED />
-                        </div>
-                        <div class="col-sm-6">
-                            <input id="txtToTime" type="time" class="form-control" placeholder="HH:mm" DISABLED />
-                        </div>
-                    </div>
-                    <p></p>
-                    <p>
-                        <button id="btnTo" class="btn btn-success" disabled><i class="fa fa-apple"></i>&nbsp;&nbsp;Reserver</button>
-                        &nbsp;
-                        <button id="btnLeaveTo" class="btn btn-danger hidden">Afbryd</button>
-                    </p>
-                </div>
+        <div id="message" class="alert hidden"></div>
+        <div class="row">
+            <div class="col-sm-4">
+                <h2>Vælg bus</h2>
+                <p>
+                    <select id="busses" class="form-control">
+                        <option value="NULL">---</option>
+                    </select>
+                </p>
+                <p>
+                    <button id="btnBusses" class="btn btn-default">Videre &raquo;</button>
+                </p>
             </div>
-        </form>
+            <div class="col-sm-4">
+                <h2>Vælg fra</h2>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <input id="txtFromDate" type="date" class="form-control" placeholder="dd/mm-YYYY" disabled />
+                    </div>
+                    <div class="col-sm-6">
+                        <input id="txtFromTime" type="time" class="form-control" placeholder="HH:mm" disabled />
+                    </div>
+                </div>
+                <p></p>
+                <p>
+                    <button id="btnFrom" class="btn btn-default" disabled>Videre &raquo;</button>
+                    &nbsp;
+                        <button id="btnLeaveFrom" class="btn btn-danger hidden">Afbryd</button>
+                </p>
+            </div>
+            <div class="col-sm-4">
+                <h2>Vælg til</h2>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <input id="txtToDate" type="date" class="form-control" placeholder="dd/mm-YYYY" disabled />
+                    </div>
+                    <div class="col-sm-6">
+                        <input id="txtToTime" type="time" class="form-control" placeholder="HH:mm" disabled />
+                    </div>
+                </div>
+                <p></p>
+                <p>
+                    <button id="btnTo" class="btn btn-success" disabled><i class="fa fa-apple"></i>&nbsp;&nbsp;Reserver</button>
+                    &nbsp;
+                        <button id="btnLeaveTo" class="btn btn-danger hidden">Afbryd</button>
+                </p>
+            </div>
+        </div>
     </div>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
     <script src="/js/common.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            getAllBusses();
+
+            jQuery("#btnBusses").click(function () {
+                if (jQuery("#busses").val() != "NULL") {
+                    // Disable busses
+                    jQuery("#busses").attr("disabled", true);
+                    jQuery("#btnBusses").attr("disabled", true);
+
+                    // Enable from
+                    jQuery("#txtFromDate").attr("disabled", false);
+                    jQuery("#txtFromTime").attr("disabled", false);
+                    jQuery("#btnFrom").attr("disabled", false);
+                    jQuery("#btnLeaveFrom").removeClass("hidden");
+                }
+                return false;
+            });
+
+
+            jQuery("#btnFrom").click(function () {
+                if (jQuery("#txtFromDate").val() != "" && jQuery("#txtFromTime").val() != "") {
+                    // Disable from
+                    jQuery("#txtFromDate").attr("disabled", true);
+                    jQuery("#txtFromTime").attr("disabled", true);
+                    jQuery("#btnFrom").attr("disabled", true);
+                    jQuery("#btnLeaveFrom").addClass("hidden");
+
+                    // Disable to
+                    jQuery("#txtToDate").attr("disabled", false);
+                    jQuery("#txtToTime").attr("disabled", false);
+                    jQuery("#btnTo").attr("disabled", false);
+                    jQuery("#btnLeaveTo").removeClass("hidden");
+                }
+                return false;
+            });
+
+
+            jQuery("#btnTo").click(function () {
+                if (jQuery("#txtFromDate").val() != "" && jQuery("#txtFromTime").val() != "") {
+                    // Disable to
+                    jQuery("#txtToDate").attr("disabled", true);
+                    jQuery("#txtToTime").attr("disabled", true);
+                    jQuery("#btnTo").attr("disabled", true);
+                    jQuery("#btnLeaveTo").addClass("hidden");
+
+
+                    // Put message
+                    addMessage("Jeep, et styks reservation, on the f* way!", "success", true);
+                }
+                return false;
+            });
+        });
+        function getAllBusses() {
+            jQuery.ajax({
+                type: "GET",
+                dataType: "json",
+                url: "http://sum.gim.dk/api/bus/getAllBusses",
+                success: function (b) {
+                    jQuery.each(b, function (key, value) {
+                        jQuery("#busses").append(jQuery("<option></option>").attr("value", key.RegNo).text(value.RegNo));
+                    });
+                }
+            });
+        }
+    </script>
 </body>
 </html>
