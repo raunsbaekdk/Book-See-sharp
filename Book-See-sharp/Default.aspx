@@ -15,7 +15,7 @@
     <![endif]-->
 </head>
 <body>
-    <div class="container">
+    <div class="container login">
         <div class="col-sm-4 col-sm-offset-4">
             <div class="panel panel-default">
                 <div class="panel-heading">
