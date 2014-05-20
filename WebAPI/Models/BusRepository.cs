@@ -12,8 +12,7 @@ namespace WebAPI.Models  {
         private SqlConnection sqlConnection;
         private SqlCommand sqlCommand;
         private SqlDataReader reader;
-        private SqlTransaction transaction;
-        private SqlParameter sqlParameter;
+
 
         public BusRepository() {
             sqlConnection = Sql.GetInstance().GetConnection();
@@ -27,11 +26,13 @@ namespace WebAPI.Models  {
                 while(reader.Read()) {
                     Bus b = new Bus();
                     b.RegNo = Convert.ToString(reader[0]);
-                    b.comCenter = Convert.ToString(reader[1]);
+                    b.ComCenter = Convert.ToString(reader[1]);
                     busses.Add(b);
                 }
             } catch(Exception e) {
                 Debug.WriteLine(e.Message);
+            } finally {
+                reader.Close();
             }
             return busses;
         }

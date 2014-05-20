@@ -23,6 +23,7 @@ namespace WebAPI.Models {
         IEnumerable<Reservation> GetAllReservations();
         void Remove(int reservationId);
         Reservation Add(Reservation reservation);
+        Reservation GetReservation(int id);
     }
 
     interface ICenterRespository {

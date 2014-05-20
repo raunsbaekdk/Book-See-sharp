@@ -86,6 +86,7 @@
     <Compile Include="Models\BusRepository.cs" />
     <Compile Include="Models\ComCenterRepository.cs" />
     <Compile Include="Models\IRepository.cs" />
+    <Compile Include="Models\ReservationRepository.cs" />
     <Compile Include="Models\SQL.cs" />
     <Compile Include="Models\UserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

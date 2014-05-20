@@ -35,13 +35,14 @@ namespace Models {
 
     public class Bus {
         public string RegNo { get; set; }
-        public string comCenter { get; set; }
-        
+        public string ComCenter { get; set; }
     }
 
     public class Reservation {
-        public DateTime FromDaTe { get; set; }
+        public int Id { get; set; }
+        public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
+        public User User { get; set; }
+        public Bus Bus { get; set; }
     }
-
 }

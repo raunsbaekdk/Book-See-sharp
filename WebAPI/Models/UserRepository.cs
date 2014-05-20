@@ -13,7 +13,6 @@ namespace WebAPI.Models {
         private SqlConnection sqlConnection;
         private SqlCommand sqlCommand;
         private SqlDataReader reader;
-        private SqlTransaction transaction;
         private SqlParameter sqlParameter;
 
         public UserRepository() {
