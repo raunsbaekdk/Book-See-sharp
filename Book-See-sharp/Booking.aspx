@@ -121,7 +121,7 @@
 
 
             jQuery("#btnTo").click(function () {
-                if (jQuery("#txtFromDate").val() != "" && jQuery("#txtFromTime").val() != "") {
+                if (jQuery("#txtToDate").val() != "" && jQuery("#txtToTime").val() != "") {
                     // Disable to
                     jQuery("#txtToDate").attr("disabled", true);
                     jQuery("#txtToTime").attr("disabled", true);
