@@ -27,6 +27,7 @@ namespace WebAPI.Models  {
                 while(reader.Read()) {
                     Bus b = new Bus();
                     b.RegNo = Convert.ToString(reader[0]);
+                    b.comCenter = Convert.ToString(reader[1]);
                     busses.Add(b);
                 }
             } catch(Exception e) {

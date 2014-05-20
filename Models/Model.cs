@@ -34,6 +34,7 @@ namespace Models {
 
     public class Bus {
         public string RegNo { get; set; }
+        public string comCenter { get; set; }
     }
 
     public class Reservation {
