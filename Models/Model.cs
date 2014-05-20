@@ -29,12 +29,14 @@ namespace Models {
         public string Address { get; set; }
         public string ContactPerson { get; set; }
         public int ContactPhone { get; set; }
+        public IEnumerable<Bus> Busses { get; set; }
 
     }
 
     public class Bus {
         public string RegNo { get; set; }
         public string comCenter { get; set; }
+        
     }
 
     public class Reservation {
