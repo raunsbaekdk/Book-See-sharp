@@ -79,12 +79,44 @@
                 </p>
             </div>
         </div>
+        <div class="page-header">
+            <h1>Kalender</h1>
+        </div>
+        <div class="row">
+            <div class="col-sm-2">
+                <h5>Vælg bus</h5>
+                <p>
+                    <select id="calendarBus" class="form-control">
+                        <option value="NULL">---</option>
+                    </select>
+                </p>
+            </div>
+            <div class="col-sm-2">
+                <h5>Vælg dag</h5>
+                <p>
+                    <input id="calendarDate" type="date" class="form-control" placeholder="dd/mm-YYYY" />
+                </p>
+            </div>
+        </div>
     </div>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
     <script src="/js/common.js"></script>
     <script>
         jQuery(document).ready(function () {
             getAllBusses();
+
+
+            jQuery("#calendarBus").change(function () {
+                if (this.value != "" && jQuery("#calendarDate").val() != "") {
+                    loadCalendar(this.value, jQuery("#calendarDate").val());
+                }
+            });
+            jQuery("#calendarDate").change(function () {
+                if (this.value != "" && jQuery("#calendarBus").val() != "") {
+                    loadCalendar(jQuery("#calendarBus").val(), this.value);
+                }
+            });
+
 
             jQuery("#btnBusses").click(function () {
                 if (jQuery("#busses").val() != "NULL") {
@@ -135,8 +167,10 @@
                 return false;
             });
         });
-        function getBusOptions(value)
-        {
+        function loadCalendar(bus, date) {
+
+        }
+        function getBusOptions(value) {
             var options = "";
             jQuery.each(value, function (key, value) {
                 options += "<option value=\"" + value.RegNo + "\">" + value.RegNo + "</option>";
@@ -156,6 +190,9 @@
                             )
                         );
                     });
+
+                    // Populate calendar
+                    jQuery("#calendarBus").html(jQuery("#busses").html());
                 }
             });
         }
