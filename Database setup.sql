@@ -37,6 +37,29 @@ toDate datetime not null
 )
 
 GO
+
+--Trigger--
+CREATE TRIGGER reservationtrigger
+ON Reservations
+AFTER INSERT
+AS
+  DECLARE @fromDate datetime, @toDate datetime
+  SELECT @fromDate = fromDate, @toDate = toDate from INSERTED
+  IF (SELECT count(id) FROM Reservations
+	WHERE (fromDate BETWEEN @fromDate AND @toDate) OR (toDate BETWEEN @fromDate AND @toDate) 
+	OR (fromDate >= @fromDate AND toDate <= @toDate) OR (fromDate <= @fromDate AND toDate >= @toDate))> 1
+  BEGIN
+	RAISERROR('Reservation cannot be made, as there is a reservation in that timeinterval', 16, 1)
+	ROLLBACK TRAN
+  END
+  IF (@fromDate > @toDate)
+  BEGIN
+	RAISERROR('The fromdate is after the todate', 16, 1)
+	ROLLBACK TRAN
+  END
+
+
+GO
 -- Test data --
 
 -- ComCenters -- 
