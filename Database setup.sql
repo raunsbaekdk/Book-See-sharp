@@ -54,6 +54,14 @@ INSERT INTO Busses values ('CA12345','Lokalcenter Rosenvang')
 -- Passwords -- REMEMBER TO REFACTOR FOR HASHES.
 INSERT INTO Passwords values ('123456',1400484521)
 INSERT INTO Passwords values ('1234567',1400484521)
+INSERT INTO Passwords values ('blablabla', 1400580496)
+INSERT INTO Passwords values ('000000', 1400580496)
 
 -- Users --
-INSERT INTO Users values(20662541,1,1,'Stefan Weibel','Stefan.Weibel@gmail.com');
+INSERT INTO Users values(20662541,1,1,'Stefan Weibel','Stefan.Weibel@gmail.com')
+INSERT INTO Users values (88888888, 2, 1, 'Peter fra Leasy', 'peter@leasy.dk')
+INSERT INTO Users values (12345678, 3, 0, 'Lars Licens', 'll@dr.dk')
+
+--Reservations--
+INSERT INTO Reservations values(20662541, 'AB12345', '2014-05-20 16:00:00', '2014-05-20 19:00:00')
+INSERT INTO Reservations values(20662541, 'AB12345', '2014-05-20 23:00:00', '2014-05-20 23:20:00')
