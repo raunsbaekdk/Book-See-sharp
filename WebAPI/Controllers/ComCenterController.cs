@@ -8,6 +8,7 @@ using Models;
 using WebAPI.Models;
 
 namespace WebAPI.Controllers {
+    [Authorize]
     public class ComCenterController : ApiController {
         static readonly ICenterRespository Respository = new ComCenterRepository();
 

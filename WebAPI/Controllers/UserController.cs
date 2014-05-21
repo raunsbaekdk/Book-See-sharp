@@ -9,6 +9,7 @@ using WebAPI.Models;
 
 
 namespace WebAPI.Controllers {
+    [Authorize]
     public class UserController : ApiController {
         static readonly IUserRepository Respository = new UserRepository();
 

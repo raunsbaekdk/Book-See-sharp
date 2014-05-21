@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -20,8 +21,8 @@ namespace Book_See_sharp {
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            sqlConnection = Sql.GetInstance().GetConnection();
 
+            sqlConnection = Sql.GetInstance().GetConnection();
 
             if (Request.RequestType == "POST")
             {
@@ -31,8 +32,8 @@ namespace Book_See_sharp {
                 {
                     // Validate user against database
                     Boolean validated = this.validateUser(username, password);
-                    if(validated == true)
-                    {
+                    if(validated == true) {
+                        Session["username"] = username;
                         FormsAuthentication.RedirectFromLoginPage(username, true);
                         // Redirect user
                         Response.Redirect("booking.aspx");

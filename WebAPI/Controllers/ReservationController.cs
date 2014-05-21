@@ -47,7 +47,8 @@ namespace WebAPI.Controllers {
         }
             
         [HttpPost]
-        public Reservation PostReservation(int mobile, string regNo, DateTime fromDate, DateTime toDate) {
+        public Reservation PostReservation(string regNo, DateTime fromDate, DateTime toDate) {
+            int mobile = Convert.ToInt32(HttpContext.Current.Session["username"]);
             Reservation reservation = new Reservation {
                 Bus = new Bus() {RegNo = regNo},
                 ToDate = toDate,

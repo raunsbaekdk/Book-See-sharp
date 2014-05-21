@@ -21,7 +21,7 @@ namespace WebAPI.Models {
         }
 
         public IEnumerable<Reservation> GetAllReservations() {
-            sqlCommand = new SqlCommand("SELECT * FROM Reservations",sqlConnection);
+            sqlCommand = new SqlCommand("SELECT * FROM Reservations", sqlConnection);
             List<Reservation> reservations = null;
             try {
                 reservations = new List<Reservation>();
@@ -36,7 +36,7 @@ namespace WebAPI.Models {
                     reservations.Add(r);
                 }
             } catch(Exception e) {
-                Debug.WriteLine(e.Message);                
+                Debug.WriteLine(e.Message);
             }
             return reservations;
         }
@@ -46,7 +46,7 @@ namespace WebAPI.Models {
             List<Reservation> list = new List<Reservation>();
 
             // regno
-            sqlParameter = new SqlParameter("@regNo",SqlDbType.NVarChar);
+            sqlParameter = new SqlParameter("@regNo", SqlDbType.NVarChar);
             sqlParameter.Value = regNo;
             sqlCommand.Parameters.Add(sqlParameter);
 
@@ -116,7 +116,7 @@ namespace WebAPI.Models {
 
 
         private Bus GetBus(String regNo) {
-            sqlCommand = new SqlCommand("SELECT * FROM Busses WHERE regNo='"+regNo+"'",sqlConnection);
+            sqlCommand = new SqlCommand("SELECT * FROM Busses WHERE regNo='" + regNo + "'", sqlConnection);
             SqlDataReader reader = null;
             Bus b = null;
             try {
@@ -135,7 +135,7 @@ namespace WebAPI.Models {
         }
 
         private User GetUser(int id) {
-            sqlCommand = new SqlCommand("SELECT * FROM Users WHERE Mobile="+id,sqlConnection);
+            sqlCommand = new SqlCommand("SELECT * FROM Users WHERE Mobile=" + id, sqlConnection);
             SqlDataReader reader = null;
             User u = null;
             try {
@@ -158,7 +158,7 @@ namespace WebAPI.Models {
         }
 
         public void DeleteReservation(int reservationId) {
-            sqlCommand = new SqlCommand("DELETE FROM Reservations WHERE id="+reservationId,sqlConnection);
+            sqlCommand = new SqlCommand("DELETE FROM Reservations WHERE id=" + reservationId, sqlConnection);
             try {
                 sqlCommand.ExecuteNonQuery();
             } catch(Exception e) {
@@ -167,8 +167,9 @@ namespace WebAPI.Models {
         }
 
         public Reservation PostReservation(Reservation reservation) {
+
             sqlCommand = new SqlCommand("INSERT INTO Reservations VALUES(@username,@bus,@fromDate,@toDate); SELECT Scope_Identity();", sqlConnection);
-            
+
             // Username
             sqlParameter = new SqlParameter("@username", SqlDbType.Int);
             sqlParameter.Value = reservation.User.Mobile;
@@ -201,7 +202,7 @@ namespace WebAPI.Models {
         }
 
         public Reservation GetReservation(int id) {
-            sqlCommand = new SqlCommand("SELECT * FROM Reservations WHERE id="+id,sqlConnection);
+            sqlCommand = new SqlCommand("SELECT * FROM Reservations WHERE id=" + id, sqlConnection);
             Reservation r = null;
             try {
                 reader = sqlCommand.ExecuteReader();
