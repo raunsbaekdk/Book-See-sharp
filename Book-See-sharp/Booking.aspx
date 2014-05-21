@@ -215,14 +215,21 @@
 	        removeMessage();
 	    }
 	    function insertIntoCalendar(value) {
-	        jQuery("#calendar > tbody").append("<tr> <td>" + value.bus + "</td><td>" + value.fromDate + "</td><td>" + value.toDate + "</td><td>" + value.contactName + "</td><td>" + value.contactPhone + "</td> </tr>");
+	        jQuery("#calendar > tbody").append("<tr> <td>" + value.Bus.RegNo + "</td><td>" + value.FromDate + "</td><td>" + value.ToDate + "</td><td>" + value.User.Name + "</td><td>" + value.User.Mobile + "</td> </tr>");
 	    }
 	    function loadCalendar(regNo, date) {
 	        jQuery("#calendar > tbody").empty();
+
+
+	        var url = "http://sum.gim.dk/api/reservation/GetBusReservation?regNo=" + regNo;
+	        if (typeof (date) !== undefined)
+	            url += "&date=" + date;
+
+
 	        jQuery.ajax({
 	            type: "GET",
 	            dataType: "json",
-	            url: "http://sum.gim.dk/api/reservation/GetBusReservation?regNo=" + regNo + "&date=" + date,
+	            url: url,
 	            success: function (b) {
 	                jQuery.each(b, function (key, value) {
 	                    insertIntoCalendar(value);
@@ -266,10 +273,10 @@
 	    }
 	    function placeReservation(regNo, fromDate, fromTime, toDate, toTime) {
 	        jQuery.ajax({
-	            type: "GET",
+	            type: "POST",
 	            dataType: "json",
-	            data: "mobile=20662541&regno=" + regNo + "&fromdate=" + fromDate + " " + fromTime + "&todate=" + toDate + " " + toTime,
-	            url: "http://raunsbaek.dk/busapi/reservation/create/public.json",
+	            data: "username=20662541&busId=" + regNo + "&fromDate=" + fromDate + " " + fromTime + "&toDate=" + toDate + " " + toTime,
+	            url: "http://sum.gim.dk/api/reservation/postreservation",
 	            success: function (b) {
 	                if (b.status == "success") {
 	                    if (b.success == "CREATED") {
