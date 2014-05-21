@@ -42,7 +42,7 @@ namespace WebAPI.Models {
         }
 
         public IEnumerable<Reservation> GetBusReservation(String regNo, DateTime date) {
-            sqlCommand = new SqlCommand("SELECT * FROM Reservations r WHERE bus='AB12345' AND CONVERT(char(10),r.fromDate,126)='2014-05-20'",sqlConnection);
+            sqlCommand = new SqlCommand("SELECT * FROM Reservations r WHERE bus='AB12345' AND CONVERT(char(10),r.fromDate,126)=@date", sqlConnection);
             List<Reservation> list = new List<Reservation>();
 
             // regno
@@ -70,6 +70,12 @@ namespace WebAPI.Models {
                 Debug.WriteLine(e.Message);
             } finally {
                 reader.Close();
+                string query = sqlCommand.CommandText;
+
+                foreach(SqlParameter p in sqlCommand.Parameters) {
+                    query = query.Replace(p.ParameterName, p.Value.ToString());
+                }
+                Debug.WriteLine(query);
             }
             return list;
         } 
@@ -126,8 +132,8 @@ namespace WebAPI.Models {
         }
 
         public Reservation PostReservation(Reservation reservation) {
-            sqlCommand = new SqlCommand("INSERT INTO Reservations VALUES(@username,@bus,@fromDate,@toDate);",sqlConnection);
-
+            sqlCommand = new SqlCommand("INSERT INTO Reservations VALUES(@username,@bus,@fromDate,@toDate); SELECT Scope_Identity();", sqlConnection);
+            
             // Username
             sqlParameter = new SqlParameter("@username", SqlDbType.Int);
             sqlParameter.Value = reservation.User.Mobile;
@@ -150,13 +156,13 @@ namespace WebAPI.Models {
 
             int id = -1;
             try {
-                id = sqlCommand.ExecuteNonQuery();
+                id = Convert.ToInt32(sqlCommand.ExecuteScalar());
 
                 Debug.WriteLine(id);
             } catch(Exception e) {
                 Debug.WriteLine(e.Message);
             }
-            return reservation;
+            return GetReservation(id);
         }
 
         public Reservation GetReservation(int id) {

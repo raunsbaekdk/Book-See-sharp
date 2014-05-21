@@ -38,12 +38,12 @@ namespace WebAPI.Controllers {
         }
             
         [HttpPost]
-        public Reservation PostReservation(int username, string busId, DateTime fromDate, DateTime toDate) {
+        public Reservation PostReservation(int mobile, string regNo, DateTime fromDate, DateTime toDate) {
             Reservation reservation = new Reservation {
-                Bus = new Bus() {RegNo = busId},
+                Bus = new Bus() {RegNo = regNo},
                 ToDate = toDate,
                 FromDate = fromDate,
-                User = new User() {Mobile = username}
+                User = new User() {Mobile = mobile}
             };
 
             Reservation res = Respository.PostReservation(reservation);
@@ -51,7 +51,7 @@ namespace WebAPI.Controllers {
                 //throw new HttpRequestException(HttpStatusCode.NotFound.ToString());
             }
             return res;
-        }
+         }
 
         public void GetReservation(int id) {
             Reservation res = Respository.GetReservation(id);

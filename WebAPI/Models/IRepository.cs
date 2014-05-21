@@ -21,7 +21,7 @@ namespace WebAPI.Models {
         void DeleteReservation(int reservationId);
         Reservation PostReservation(Reservation reservation);
         Reservation GetReservation(int id);
-        IEnumerable<Reservation> GetBusReservation(String regNo, DateTime date); 
+        IEnumerable<Reservation> GetBusReservation(String regNo, DateTime date);
     }
 
     interface ICenterRespository {
