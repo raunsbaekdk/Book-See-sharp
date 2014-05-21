@@ -275,7 +275,7 @@
 	        jQuery.ajax({
 	            type: "POST",
 	            dataType: "json",
-	            data: "username=20662541&busId=" + regNo + "&fromDate=" + fromDate + " " + fromTime + "&toDate=" + toDate + " " + toTime,
+	            data: "username=20662541&busId=" + regNo + "&fromDate=" + fromDate + "T" + fromTime + "&toDate=" + toDate + "T" + toTime,
 	            url: "http://sum.gim.dk/api/reservation/postreservation",
 	            success: function (b) {
 	                if (b.status == "success") {
