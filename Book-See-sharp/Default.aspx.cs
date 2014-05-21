@@ -31,12 +31,11 @@ namespace Book_See_sharp {
                 {
                     // Validate user against database
                     Boolean validated = this.validateUser(username, password);
-                    Debug.WriteLine(validated);
                     if(validated == true)
                     {
                         FormsAuthentication.RedirectFromLoginPage(username, true);
                         // Redirect user
-                        //Response.Redirect(Request.Form["ReturnUrl"]);
+                        Response.Redirect("booking.aspx");
                     }
                 }
             }
