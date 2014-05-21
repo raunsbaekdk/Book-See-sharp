@@ -12,9 +12,6 @@ namespace Book_See_sharp
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            HttpCookie cookie = Request.Cookies.Get(".APSXAUTH");
-            if(cookie != null)
-                Debug.WriteLine( cookie.Value );
         }
     }
 }

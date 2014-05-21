@@ -46,7 +46,6 @@ namespace WebAPI.Controllers {
             return enumerable;
         }
             
-        [HttpPost]
         public Reservation PostReservation(string regNo, DateTime fromDate, DateTime toDate) {
             int mobile = Convert.ToInt32(HttpContext.Current.Session["username"]);
             Reservation reservation = new Reservation {
