@@ -16,7 +16,6 @@ namespace Book_See_sharp {
     {
         private SqlConnection sqlConnection;
         private SqlCommand sqlCommand;
-        private SqlDataReader reader;
         private SqlParameter sqlParameter;
 
         protected void Page_Load(object sender, EventArgs e)
@@ -56,17 +55,24 @@ namespace Book_See_sharp {
             sqlParameter.Value = password;
             sqlCommand.Parameters.Add(sqlParameter);
 
-            int i = -1;
+
+            Boolean userValidated = false;
             try
             {
-                i = sqlCommand.ExecuteNonQuery();
+                object objectCount = sqlCommand.ExecuteScalar();
+                int countUsers = (int)objectCount;
+
+
+                if (countUsers > 0)
+                    userValidated = true;
             }
             catch (Exception e)
             {
-                // Du er en spade
+                Debug.WriteLine(e.Message);
             }
 
-            return i > 0;
+
+            return userValidated;
         }
     }
 }
