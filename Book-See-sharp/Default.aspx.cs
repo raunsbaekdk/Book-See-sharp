@@ -32,6 +32,7 @@ namespace Book_See_sharp {
                 {
                     // Validate user against database
                     Boolean validated = this.validateUser(username, password);
+                    Debug.WriteLine(validated);
                     if(validated == true)
                     {
                         FormsAuthentication.RedirectFromLoginPage(username, true);
@@ -43,7 +44,7 @@ namespace Book_See_sharp {
 
         public Boolean validateUser(String username, String password)
         {
-            sqlCommand = new SqlCommand("SELECT mobile, passwordId FROM Users LEFT JOIN Passwords.id = Users.PasswordId WHERE mobile = @mobile AND Passwords.password = @password", sqlConnection);
+            sqlCommand = new SqlCommand("SELECT mobile, passwordId FROM Users LEFT JOIN Passwords ON Passwords.id = Users.PasswordId WHERE mobile = @mobile AND Passwords.password = @password", sqlConnection);
 
             // mobile
             sqlParameter = new SqlParameter("@mobile", SqlDbType.Int);
@@ -51,7 +52,7 @@ namespace Book_See_sharp {
             sqlCommand.Parameters.Add(sqlParameter);
 
             // password
-            sqlParameter = new SqlParameter("@password", SqlDbType.Int);
+            sqlParameter = new SqlParameter("@password", SqlDbType.Char);
             sqlParameter.Value = password;
             sqlCommand.Parameters.Add(sqlParameter);
 
