@@ -37,6 +37,14 @@ namespace WebAPI.Controllers {
             }
             return enumerable;
         }
+
+        public IEnumerable<Reservation> GetBusReservation(String regNo) {
+            IEnumerable<Reservation> enumerable = Respository.GetBusReservation(regNo);
+            if(enumerable == null) {
+                throw new HttpRequestException(HttpStatusCode.NotFound.ToString());
+            }
+            return enumerable;
+        }
             
         [HttpPost]
         public Reservation PostReservation(int mobile, string regNo, DateTime fromDate, DateTime toDate) {

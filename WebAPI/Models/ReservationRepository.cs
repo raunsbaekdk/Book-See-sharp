@@ -78,7 +78,42 @@ namespace WebAPI.Models {
                 Debug.WriteLine(query);
             }
             return list;
-        } 
+        }
+
+        public IEnumerable<Reservation> GetBusReservation(string regNo) {
+            sqlCommand = new SqlCommand("SELECT * FROM Reservations r WHERE bus='AB12345';", sqlConnection);
+            List<Reservation> list = new List<Reservation>();
+
+            // regno
+            sqlParameter = new SqlParameter("@regNo", SqlDbType.NVarChar);
+            sqlParameter.Value = regNo;
+            sqlCommand.Parameters.Add(sqlParameter);
+
+            try {
+                reader = sqlCommand.ExecuteReader();
+                while(reader.Read()) {
+                    Reservation r = new Reservation();
+                    r.Id = Convert.ToInt32(reader[0]);
+                    r.FromDate = Convert.ToDateTime(reader[4]);
+                    r.ToDate = Convert.ToDateTime(reader[3]);
+                    r.User = GetUser(Convert.ToInt32(reader[1]));
+                    r.Bus = GetBus(Convert.ToString(reader[2]));
+                    list.Add(r);
+                }
+            } catch(Exception e) {
+                Debug.WriteLine(e.Message);
+            } finally {
+                reader.Close();
+                string query = sqlCommand.CommandText;
+
+                foreach(SqlParameter p in sqlCommand.Parameters) {
+                    query = query.Replace(p.ParameterName, p.Value.ToString());
+                }
+                Debug.WriteLine(query);
+            }
+            return list;
+        }
+
 
         private Bus GetBus(String regNo) {
             sqlCommand = new SqlCommand("SELECT * FROM Busses WHERE regNo='"+regNo+"'",sqlConnection);
