@@ -35,6 +35,8 @@ namespace Book_See_sharp {
                     if(validated == true)
                     {
                         FormsAuthentication.RedirectFromLoginPage(username, true);
+                        // Redirect user
+                        Response.Redirect(Request.Form["ReturnUrl"]);
                     }
                 }
             }
