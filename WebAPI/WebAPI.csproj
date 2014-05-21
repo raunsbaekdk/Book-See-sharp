@@ -91,6 +91,8 @@
     <Compile Include="Models\SQL.cs" />
     <Compile Include="Models\UserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\IdentityService.cs" />
+    <Compile Include="Service\IIdentityService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

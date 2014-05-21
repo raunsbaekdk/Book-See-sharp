@@ -10,6 +10,7 @@ using Models;
 using WebAPI.Models;
 
 namespace WebAPI.Controllers {
+    [Authorize]
     public class ReservationController : ApiController {
         static readonly IReservationRespository Respository = new ReservationRepository();
 
