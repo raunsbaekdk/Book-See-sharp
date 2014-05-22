@@ -104,12 +104,6 @@ namespace WebAPI.Models {
                 Debug.WriteLine(e.Message);
             } finally {
                 reader.Close();
-                string query = sqlCommand.CommandText;
-
-                foreach(SqlParameter p in sqlCommand.Parameters) {
-                    query = query.Replace(p.ParameterName, p.Value.ToString());
-                }
-                Debug.WriteLine(query);
             }
             return list;
         }
@@ -129,7 +123,9 @@ namespace WebAPI.Models {
             } catch(Exception e) {
                 Debug.WriteLine(e.Message);
             } finally {
-                reader.Close();
+                if(reader != null) {
+                    reader.Close();
+                }
             }
             return b;
         }
@@ -151,7 +147,9 @@ namespace WebAPI.Models {
             } catch(Exception e) {
                 Debug.WriteLine(e.Message);
             } finally {
-                reader.Close();
+                if(reader != null) {
+                    reader.Close();
+                }
             }
 
             return u;

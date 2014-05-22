@@ -45,9 +45,16 @@ namespace WebAPI.Controllers {
             }
             return enumerable;
         }
-            
+
+        public void GetReservation(int id) {
+            Reservation res = Respository.GetReservation(id);
+        }
+        
+        [HttpPost]
         public Reservation PostReservation(string regNo, DateTime fromDate, DateTime toDate) {
-            int mobile = Convert.ToInt32(HttpContext.Current.Session["username"]);
+            object o = HttpContext.Current.Session["username"];
+            Debug.WriteLine(o);
+            int mobile = Convert.ToInt32(o);
             Reservation reservation = new Reservation {
                 Bus = new Bus() {RegNo = regNo},
                 ToDate = toDate,
@@ -62,8 +69,6 @@ namespace WebAPI.Controllers {
             return res;
          }
 
-        public void GetReservation(int id) {
-            Reservation res = Respository.GetReservation(id);
-        }
+
     }
 }
