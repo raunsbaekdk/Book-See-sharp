@@ -25,7 +25,9 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="booking.php">Book en bus</a>
+				<a class="navbar-brand" href="booking.aspx">Book en bus</a>
+                <a class="navbar-brand" href="calendar.aspx">Kalender</a>
+                <a class="navbar-brand" href="adminpanel.aspx">Administratorpanel</a>
 			</div>
 		</div>
 	</div>
