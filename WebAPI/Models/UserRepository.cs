@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Web;
+using System.Web.Http;
 using Models;
 
 namespace WebAPI.Models {
@@ -45,7 +46,7 @@ namespace WebAPI.Models {
             sqlCommand = new SqlCommand("Select * FROM User WHERE mobile=" + username, sqlConnection);
             User u = null;
             try {
-                reader = sqlCommand.ExecuteReader();
+                SqlDataReader reader = sqlCommand.ExecuteReader();
                 while(reader.Read()) {
                     u = new User();
                     u.Mobile = Convert.ToInt32(reader[0]);
@@ -146,6 +147,42 @@ namespace WebAPI.Models {
                 Debug.WriteLine(e.Message);
             }
             return i > 0;
+        }
+
+        public IEnumerable<Reservation> GetUserReservations(int mobile) {
+            sqlCommand = new SqlCommand("SELECT * FROM Reservations WHERE username="+mobile+";");
+            List<Reservation> list = null;
+            try {
+                reader = sqlCommand.ExecuteReader();
+                while(reader.Read()) {
+                    Reservation r = new Reservation();
+                    r.Id = Convert.ToInt32(reader[0]);
+                    r.User = Get(mobile);
+                    r.ToDate = Convert.ToDateTime(reader[4]);
+                    r.FromDate = Convert.ToDateTime(reader[3]);
+                    r.Bus = GetBus(Convert.ToString(reader[2]));
+                    
+                }
+            } catch(Exception e) {
+                 Debug.WriteLine(e.Message);       
+            }
+            return list;
+        }
+
+        private Bus GetBus(string bus) {
+            sqlCommand = new SqlCommand("SELECT * FROM Busses WHERE regNo='"+bus+"';");
+            Bus b = null;
+            try {
+                SqlDataReader reader2 = sqlCommand.ExecuteReader();
+                while(reader2.Read()) {
+                    b = new Bus();
+                    b.RegNo = Convert.ToString(reader2[0]);
+                    b.ComCenter = Convert.ToString(reader[1]);
+                }
+            } catch(Exception e) {
+                Debug.WriteLine(e.Message); 
+            }
+            return b;
         }
     }
 }

@@ -199,6 +199,43 @@ namespace WebAPI.Models {
             return GetReservation(id);
         }
 
+        public Reservation PostReservation(ReservationApiClass reservation) {
+
+            sqlCommand = new SqlCommand("INSERT INTO Reservations VALUES(@username,@bus,@fromDate,@toDate); SELECT Scope_Identity();", sqlConnection);
+
+            // Username
+            sqlParameter = new SqlParameter("@username", SqlDbType.Int);
+            sqlParameter.Value = reservation.Mobile;
+            sqlCommand.Parameters.Add(sqlParameter);
+
+            // Bus
+            sqlParameter = new SqlParameter("@bus", SqlDbType.NVarChar);
+            sqlParameter.Value = reservation.RegNo;
+            sqlCommand.Parameters.Add(sqlParameter);
+
+            // fromDate
+            sqlParameter = new SqlParameter("@fromDate", SqlDbType.DateTime);
+            sqlParameter.Value = reservation.FromDate;
+            sqlCommand.Parameters.Add(sqlParameter);
+
+            // toDate
+            sqlParameter = new SqlParameter("@toDate", SqlDbType.DateTime);
+            sqlParameter.Value = reservation.ToDate;
+            sqlCommand.Parameters.Add(sqlParameter);
+
+            int id = -1;
+            try {
+                id = Convert.ToInt32(sqlCommand.ExecuteScalar());
+                
+                Debug.WriteLine(id);
+                return GetReservation(id);
+            } catch(Exception e) {
+                Debug.WriteLine(e.Message);
+                return null;
+            }
+        }
+
+
         public Reservation GetReservation(int id) {
             sqlCommand = new SqlCommand("SELECT * FROM Reservations WHERE id=" + id, sqlConnection);
             Reservation r = null;

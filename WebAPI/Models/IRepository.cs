@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Models;
 
 namespace WebAPI.Models {
+
     interface IUserRepository {
 
         IEnumerable<User> GetAllUsers();
@@ -10,6 +11,8 @@ namespace WebAPI.Models {
         User Add(User user);
         void DeleteUser(int mobile);
         bool PutUser(User user);
+        IEnumerable<Reservation> GetUserReservations(int mobile);
+
     }
 
     interface IBusRespository {
@@ -20,6 +23,7 @@ namespace WebAPI.Models {
         IEnumerable<Reservation> GetAllReservations();
         void DeleteReservation(int reservationId);
         Reservation PostReservation(Reservation reservation);
+        Reservation PostReservation(ReservationApiClass reservation);
         Reservation GetReservation(int id);
         IEnumerable<Reservation> GetBusReservation(String regNo, DateTime date);
         IEnumerable<Reservation> GetBusReservation(String regNo);

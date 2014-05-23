@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -11,8 +12,12 @@ namespace WebAPI.Controllers {
     [Authorize]
     public class BusController : ApiController {
         static readonly IBusRespository Respository = new BusRepository();
-        public IEnumerable<Bus> GetAllBusses() {
-            return Respository.GetAllBusses();
+        public IHttpActionResult GetAllBusses() {
+            IEnumerable<Bus> busses = Respository.GetAllBusses();
+            if(busses == null) {
+                return NotFound();
+            }
+            return Ok(busses);
         } 
     }
 }

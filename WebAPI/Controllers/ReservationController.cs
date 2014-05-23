@@ -10,65 +10,70 @@ using Models;
 using WebAPI.Models;
 
 namespace WebAPI.Controllers {
-    [Authorize]
+
     public class ReservationController : ApiController {
         static readonly IReservationRespository Respository = new ReservationRepository();
 
-        public IEnumerable<Reservation> GetAllReservations() {
+        [HttpGet]
+        public IHttpActionResult Get() {
             IEnumerable<Reservation> list = Respository.GetAllReservations();
             if(list == null) {
-                throw new HttpRequestException(HttpStatusCode.NotFound.ToString());
+                return NotFound();
             }
-            return list;
+            return Ok(list.AsQueryable());
         }
 
-        public void DeleteReservation(int id) {
+        [HttpGet]
+        public void Delete(int id) {
             Reservation res = Respository.GetReservation(id);
             if(res == null) {
-                throw new HttpRequestException(HttpStatusCode.NotFound.ToString());
+                throw new HttpResponseException(HttpStatusCode.NotFound);
             }
             Respository.DeleteReservation(id);
         }
 
-        public IEnumerable<Reservation> GetBusReservation(String regNo, DateTime date) {
+        [HttpGet]
+        public IHttpActionResult Get(String regNo, DateTime date) {
             IEnumerable<Reservation> enumerable = Respository.GetBusReservation(regNo, date);
             if(enumerable == null) {
-                throw new HttpRequestException(HttpStatusCode.NotFound.ToString());
+                throw new HttpResponseException(HttpStatusCode.NotFound);
             }
-            return enumerable;
+            return Ok(enumerable);
         }
 
-        public IEnumerable<Reservation> GetBusReservation(String regNo) {
+        [HttpGet]
+        public IHttpActionResult Get(String regNo) {
             IEnumerable<Reservation> enumerable = Respository.GetBusReservation(regNo);
             if(enumerable == null) {
-                throw new HttpRequestException(HttpStatusCode.NotFound.ToString());
+                throw new HttpResponseException(HttpStatusCode.NotFound);
             }
-            return enumerable;
+            return Ok(enumerable);
         }
 
-        public void GetReservation(int id) {
+        [HttpGet]
+        public IHttpActionResult Get(int id) {
             Reservation res = Respository.GetReservation(id);
+            if(res == null) {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+            return Ok(res);
         }
         
         [HttpPost]
-        public Reservation PostReservation(string regNo, DateTime fromDate, DateTime toDate) {
-            object o = HttpContext.Current.Session["username"];
-            Debug.WriteLine(o);
-            int mobile = Convert.ToInt32(o);
-            Reservation reservation = new Reservation {
-                Bus = new Bus() {RegNo = regNo},
-                ToDate = toDate,
-                FromDate = fromDate,
-                User = new User() {Mobile = mobile}
-            };
+        //public IHttpActionResult Post([FromBody]Reservation reservation) {
+        //    Reservation res = Respository.PostReservation(reservation);
+        //    if(res == null) {
+        //        return NotFound();
+        //    }
+        //    return Ok(res);
+        //}
 
-            Reservation res = Respository.PostReservation(reservation);
-            if(res == null) {
-                //throw new HttpRequestException(HttpStatusCode.NotFound.ToString());
+        public IHttpActionResult Post([FromBody] ReservationApiClass res) {
+            Reservation result = Respository.PostReservation(res);
+            if(result == null) {
+                return InternalServerError(new Exception("Failed to create reservation please try again"));
             }
-            return res;
-         }
-
-
+            return Created(new Uri(Request.RequestUri, "/api/comments/" + result.Id), result);
+        }
     }
 }

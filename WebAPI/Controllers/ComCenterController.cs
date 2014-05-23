@@ -12,8 +12,12 @@ namespace WebAPI.Controllers {
     public class ComCenterController : ApiController {
         static readonly ICenterRespository Respository = new ComCenterRepository();
 
-        public IEnumerable<ComCenter> GetAllComCenters() {
-            return Respository.GetAllComCenters();
+        public IHttpActionResult GetAllComCenters() {
+            IEnumerable<ComCenter> centers = Respository.GetAllComCenters();
+            if(centers == null) {
+                return NotFound();
+            }
+            return Ok(centers);
         } 
     }
 }
