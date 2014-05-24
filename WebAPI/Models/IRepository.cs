@@ -21,7 +21,7 @@ namespace WebAPI.Models {
 
     interface IReservationRespository {
         IEnumerable<Reservation> GetAllReservations();
-        void DeleteReservation(int reservationId);
+        bool DeleteReservation(int reservationId);
         Reservation PostReservation(Reservation reservation);
         Reservation PostReservation(ReservationApiClass reservation);
         Reservation GetReservation(int id);

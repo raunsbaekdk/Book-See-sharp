@@ -79,6 +79,8 @@
     <Compile Include="App_Start\SecurityConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\ComCenterController.cs" />
+    <Compile Include="Models\AuthorizationSystem.cs" />
+    <Compile Include="Models\IAuthorizationSystem.cs" />
     <Compile Include="Controllers\IdentityController.cs" />
     <Compile Include="Controllers\ReservationController.cs" />
     <Compile Include="Controllers\UserController.cs" />

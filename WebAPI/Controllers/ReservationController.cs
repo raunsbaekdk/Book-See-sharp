@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Web;
 using System.Web.Http;
 using Models;
@@ -13,6 +14,8 @@ namespace WebAPI.Controllers {
     [Authorize]
     public class ReservationController : ApiController {
         static readonly IReservationRespository Respository = new ReservationRepository();
+        // Ghetto solution
+        private static readonly IAuthorizationSystem Authorizationuth = new AuthorizationSystem();
 
         [HttpGet]
         public IHttpActionResult Get() {
@@ -23,13 +26,19 @@ namespace WebAPI.Controllers {
             return Ok(list.AsQueryable());
         }
 
-        [HttpGet]
-        public void Delete(int id) {
-            Reservation res = Respository.GetReservation(id);
-            if(res == null) {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+        public IHttpActionResult Delete(int id) {
+
+            //auth check
+            String username = HttpContext.Current.User.Identity.Name;
+            Debug.WriteLine("##################  " + username + "   #################");
+            if(Authorizationuth.IsAdmin(username)) {
+                
+                if(!Respository.DeleteReservation(id)) {
+                    return InternalServerError(new Exception("Failed to delete reservation please try again!"));
+                }
+                return Ok();
             }
-            Respository.DeleteReservation(id);
+            return Unauthorized(new AuthenticationHeaderValue("Forms"));
         }
 
         [HttpGet]
@@ -58,7 +67,7 @@ namespace WebAPI.Controllers {
             }
             return Ok(res);
         }
-        
+
         [HttpPost]
         //public IHttpActionResult Post([FromBody]Reservation reservation) {
         //    Reservation res = Respository.PostReservation(reservation);

@@ -155,13 +155,15 @@ namespace WebAPI.Models {
             return u;
         }
 
-        public void DeleteReservation(int reservationId) {
+        public bool DeleteReservation(int reservationId) {
             sqlCommand = new SqlCommand("DELETE FROM Reservations WHERE id=" + reservationId, sqlConnection);
+            int i = -1;
             try {
-                sqlCommand.ExecuteNonQuery();
+                i = sqlCommand.ExecuteNonQuery();
             } catch(Exception e) {
                 Debug.WriteLine(e.Message);
             }
+            return i > 0;
         }
 
         public Reservation PostReservation(Reservation reservation) {
