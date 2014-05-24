@@ -10,4 +10,12 @@ namespace WebAPI.Models {
         public int Mobile { get; set; }
         public string RegNo { get; set; }
     }
+
+    public class UserApiClass {
+        public string Name { get; set; }
+        public int Mobile { get; set; }
+        public string Password { get; set; }
+        public bool IsAdmin { get; set; }
+        public String Email { get; set; }
+    }
 }

@@ -9,7 +9,7 @@ GO
 CREATE TABLE Passwords (
 id int identity primary key,
 password char(255) not null,
-created int not null
+created datetime
 )
 CREATE TABLE Users (
 mobile int primary key,
@@ -75,10 +75,10 @@ INSERT INTO Busses values ('AC12345','Lokalcenter Dalgas')
 INSERT INTO Busses values ('CA12345','Lokalcenter Rosenvang')
 
 -- Passwords -- REMEMBER TO REFACTOR FOR HASHES.
-INSERT INTO Passwords values ('123456',1400484521)
-INSERT INTO Passwords values ('1234567',1400484521)
-INSERT INTO Passwords values ('blablabla', 1400580496)
-INSERT INTO Passwords values ('000000', 1400580496)
+INSERT INTO Passwords values ('123456','2014-05-20 15:50:00')
+INSERT INTO Passwords values ('1234567','2014-05-20 15:50:00')
+INSERT INTO Passwords values ('blablabla','2014-05-20 15:50:00')
+INSERT INTO Passwords values ('123','2014-05-20 15:50:00')
 
 -- Users --
 INSERT INTO Users values(20662541,1,1,'Stefan Weibel','Stefan.Weibel@gmail.com')

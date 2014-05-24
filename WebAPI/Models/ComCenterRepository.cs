@@ -6,21 +6,20 @@ using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using Models;
+using ModelSQL;
 
 namespace WebAPI.Models {
     public class ComCenterRepository : ICenterRespository {
         private SqlConnection sqlConnection;
-        private SqlCommand sqlCommand;
-        private SqlDataReader reader;
-        private SqlParameter sqlParameter;
 
         public ComCenterRepository() {
             sqlConnection = Sql.GetInstance().GetConnection();
         }
 
         public IEnumerable<ComCenter> GetAllComCenters() {
-            sqlCommand = new SqlCommand("SELECT * FROM ComCenters",sqlConnection);
+            SqlCommand sqlCommand = new SqlCommand("SELECT * FROM ComCenters",sqlConnection);
             List<ComCenter> centers = new List<ComCenter>();
+            SqlDataReader reader = null;
             try {
                 reader = sqlCommand.ExecuteReader();
                 while(reader.Read()) {
@@ -35,16 +34,17 @@ namespace WebAPI.Models {
             } catch(Exception e) {
                 Debug.WriteLine(e.Message);
             } finally {
+                if(reader != null)
                 reader.Close();
             }
             return centers;
         }
 
         public IEnumerable<Bus> GetBussesForCenter(string center) {
-            sqlCommand = new SqlCommand("SELECT * FROM Busses WHERE comCenter =@center",sqlConnection);
+            SqlCommand sqlCommand = new SqlCommand("SELECT * FROM Busses WHERE comCenter =@center",sqlConnection);
             List<Bus> busses = new List<Bus>();
             // name
-            sqlParameter = new SqlParameter("@center", SqlDbType.NVarChar);
+            SqlParameter sqlParameter = new SqlParameter("@center", SqlDbType.NVarChar);
             sqlParameter.Value = center;
             sqlCommand.Parameters.Add(sqlParameter);
             SqlDataReader reader = null;
@@ -59,6 +59,7 @@ namespace WebAPI.Models {
             } catch(Exception e) {
                 Debug.WriteLine(e.Message);
             } finally {
+                if(reader != null)
                 reader.Close();
             }
             return busses;

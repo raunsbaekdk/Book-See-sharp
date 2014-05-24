@@ -8,9 +8,9 @@ namespace WebAPI.Models {
 
         IEnumerable<User> GetAllUsers();
         User Get(int username);
-        User Add(User user);
-        void DeleteUser(int mobile);
-        bool PutUser(User user);
+        User Post(UserApiClass user);
+        bool Delete(int mobile);
+        bool Put(User user);
         IEnumerable<Reservation> GetUserReservations(int mobile);
 
     }
@@ -21,7 +21,7 @@ namespace WebAPI.Models {
 
     interface IReservationRespository {
         IEnumerable<Reservation> GetAllReservations();
-        bool DeleteReservation(int reservationId);
+        int DeleteReservation(int reservationId);
         Reservation PostReservation(Reservation reservation);
         Reservation PostReservation(ReservationApiClass reservation);
         Reservation GetReservation(int id);

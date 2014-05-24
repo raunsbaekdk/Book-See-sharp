@@ -5,24 +5,23 @@ using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using Models;
+using ModelSQL;
 
 namespace WebAPI.Models  {
 
     public class BusRepository : IBusRespository {
         private SqlConnection sqlConnection;
-        private SqlCommand sqlCommand;
-        private SqlDataReader reader;
-
 
         public BusRepository() {
             sqlConnection = Sql.GetInstance().GetConnection();
         }
 
         public IEnumerable<Bus> GetAllBusses() {
-            sqlCommand = new SqlCommand("select * from Busses",sqlConnection);
-            reader = sqlCommand.ExecuteReader();
+            SqlCommand sqlCommand = new SqlCommand("select * from Busses",sqlConnection);
+            SqlDataReader reader = null;
             List<Bus> busses = new List<Bus>();
             try {
+                reader = sqlCommand.ExecuteReader();
                 while(reader.Read()) {
                     Bus b = new Bus();
                     b.RegNo = Convert.ToString(reader[0]);
@@ -32,6 +31,7 @@ namespace WebAPI.Models  {
             } catch(Exception e) {
                 Debug.WriteLine(e.Message);
             } finally {
+                if(reader != null)
                 reader.Close();
             }
             return busses;

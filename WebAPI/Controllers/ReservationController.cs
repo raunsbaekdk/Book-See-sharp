@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Http;
 using Models;
 using WebAPI.Models;
+using WebAPI.Security;
 
 namespace WebAPI.Controllers {
     [Authorize]
@@ -17,7 +18,6 @@ namespace WebAPI.Controllers {
         // Ghetto solution
         private static readonly IAuthorizationSystem Authorizationuth = new AuthorizationSystem();
 
-        [HttpGet]
         public IHttpActionResult Get() {
             IEnumerable<Reservation> list = Respository.GetAllReservations();
             if(list == null) {
@@ -27,21 +27,18 @@ namespace WebAPI.Controllers {
         }
 
         public IHttpActionResult Delete(int id) {
-
-            //auth check
-            String username = HttpContext.Current.User.Identity.Name;
-            Debug.WriteLine("##################  " + username + "   #################");
-            if(Authorizationuth.IsAdmin(username)) {
-                
-                if(!Respository.DeleteReservation(id)) {
-                    return InternalServerError(new Exception("Failed to delete reservation please try again!"));
-                }
+            int i = Respository.DeleteReservation(id);
+            if(i == -2) {
+                return Unauthorized(new AuthenticationHeaderValue("Forms"));
+            } else if(i == -1) {
+                return InternalServerError(new Exception("Failed to delete reservation please try again!"));
+            } else if(i == 0) {
+                return NotFound();
+            } else {
                 return Ok();
             }
-            return Unauthorized(new AuthenticationHeaderValue("Forms"));
         }
 
-        [HttpGet]
         public IHttpActionResult Get(String regNo, DateTime date) {
             IEnumerable<Reservation> enumerable = Respository.GetBusReservation(regNo, date);
             if(enumerable == null) {
@@ -50,7 +47,6 @@ namespace WebAPI.Controllers {
             return Ok(enumerable);
         }
 
-        [HttpGet]
         public IHttpActionResult Get(String regNo) {
             IEnumerable<Reservation> enumerable = Respository.GetBusReservation(regNo);
             if(enumerable == null) {
@@ -59,7 +55,6 @@ namespace WebAPI.Controllers {
             return Ok(enumerable);
         }
 
-        [HttpGet]
         public IHttpActionResult Get(int id) {
             Reservation res = Respository.GetReservation(id);
             if(res == null) {
@@ -68,21 +63,12 @@ namespace WebAPI.Controllers {
             return Ok(res);
         }
 
-        [HttpPost]
-        //public IHttpActionResult Post([FromBody]Reservation reservation) {
-        //    Reservation res = Respository.PostReservation(reservation);
-        //    if(res == null) {
-        //        return NotFound();
-        //    }
-        //    return Ok(res);
-        //}
-
         public IHttpActionResult Post([FromBody] ReservationApiClass res) {
             Reservation result = Respository.PostReservation(res);
             if(result == null) {
                 return InternalServerError(new Exception("Failed to create reservation please try again"));
             }
-            return Created(new Uri(Request.RequestUri, "/api/comments/" + result.Id), result);
+            return Created(new Uri(Request.RequestUri, "/get?id=" + result.Id), result);
         }
     }
 }
