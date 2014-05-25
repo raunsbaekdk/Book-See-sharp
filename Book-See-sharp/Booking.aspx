@@ -277,40 +277,44 @@
 			});
 		}
 		function placeReservation(regNo, fromDate, fromTime, toDate, toTime) {
-			jQuery.ajax({
-				type: "POST",
-				dataType: "json",
-				data: "username=20662541&busId=" + regNo + "&fromDate=" + fromDate + "T" + fromTime + "&toDate=" + toDate + "T" + toTime,
-				url: "http://sum.gim.dk/api/reservation/postreservation",
-				success: function (b) {
-					if (b.status == "success") {
-						if (b.success == "CREATED") {
-							// Put message
-							addMessage("message", "Reservationen er blevet foretaget. Du kan se den i kalenderen.", "success", true);
+		    jQuery.ajax({
+		        type: "POST",
+		        dataType: "json",
+		        data: "RegNo=" + regNo + "&fromDate=" + fromDate + "T" + fromTime + "&toDate=" + toDate + "T" + toTime,
+		        url: "http://sum.gim.dk/api/reservation/",
+		        success: function(b) {
+		            console.log(b);
+		            if (b.status != null) {
+		                // Put message
+		                addMessage("message", "Reservationen er blevet foretaget. Du kan se den i kalenderen.", "success", true);
 
-							// Insert into calendar
-							jQuery("#calendar").removeClass("hidden");
-							insertIntoCalendar(b.reservation);
-						}
-					}
-					if (b.status == "error") {
-						if (b.error == "DUPLICATE") {
-							// Enable until from date
-							section("to", true);
-							section("from", false);
+		                // Insert into calendar
+		                jQuery("#calendar").removeClass("hidden");
+		                insertIntoCalendar(b.reservation);
+		            } else {
+		                // Enable until from date
+		                section("to", true);
+		                section("from", false);
 
-							// Put message
-							addMessage("message", "Det var ikke muligt at reservere, fordi der allerede findes en reservation på det pågældende tidspunkt.", "danger", true);
+		                // Put message
+		                addMessage("message", "Det var ikke muligt at reservere, fordi der allerede findes en reservation på det pågældende tidspunkt.", "danger", true);
 
-							// Empty fields
-							jQuery("#txtFromDate").val("");
-							jQuery("#txtFromTime").val("");
-							jQuery("#txtToDate").val("");
-							jQuery("#txtToTime").val("");
-						}
-					}
-				}
-			});
+		                // Empty fields
+		                jQuery("#txtFromDate").val("");
+		                jQuery("#txtFromTime").val("");
+		                jQuery("#txtToDate").val("");
+		                jQuery("#txtToTime").val("");
+		            }
+		        },
+		        error: function temp(xhr, textStatus, error) {
+		            console.log(xhr);
+		            if (textStatus == "Duplicate") {
+		                addMessage("message", "Det var ikke muligt at reservere, fordi der allerede findes en reservation på det pågældende tidspunkt.", "danger", true);
+		            } else {
+		                addMessage("message", "Something went seriusly wrong.", "danger", true);
+		            }
+		        }
+		    });
 		}
 	</script>
 </body>

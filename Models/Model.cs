@@ -19,7 +19,6 @@ namespace Models {
     public class User {
         public string Name { get; set; }
         public int Password { get; set; }
-        public string Fullname { get; set; }
         public string Email { get; set; }
         public int Mobile { get; set; }
         public bool IsAdmin { get; set; }

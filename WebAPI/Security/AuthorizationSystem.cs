@@ -7,7 +7,7 @@ namespace WebAPI.Security {
     public class AuthorizationSystem : IAuthorizationSystem {
         private SqlConnection sqlConnection = Sql.GetInstance().GetConnection();
         public bool IsAdmin(String mobile) {
-            SqlCommand sqlCommand = new SqlCommand("SELECT count(*) FROM Users WHERE Mobile="+mobile+";",sqlConnection);
+            SqlCommand sqlCommand = new SqlCommand("SELECT count(*) FROM Users WHERE Mobile="+mobile+" AND admin=1;",sqlConnection);
             int i = -1;
             SqlDataReader reader = null;
             try {

@@ -218,11 +218,12 @@ namespace WebAPI.Models {
         }
 
         public Reservation PostReservation(ReservationApiClass reservation) {
+            String username = HttpContext.Current.User.Identity.Name;
             SqlCommand sqlCommand = new SqlCommand("INSERT INTO Reservations VALUES(@username,@bus,@fromDate,@toDate); SELECT Scope_Identity();", sqlConnection);
 
             // Username
             SqlParameter sqlParameter = new SqlParameter("@username", SqlDbType.Int);
-            sqlParameter.Value = reservation.Mobile;
+            sqlParameter.Value = Convert.ToInt32(username);
             sqlCommand.Parameters.Add(sqlParameter);
 
             // Bus

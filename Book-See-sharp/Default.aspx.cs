@@ -12,23 +12,19 @@ using System.Data;
 using System.Web.Security;
 
 namespace Book_See_sharp {
-    public partial class Default : System.Web.UI.Page
-    {
+    public partial class Default : System.Web.UI.Page {
         private SqlConnection sqlConnection;
         private SqlCommand sqlCommand;
         private SqlParameter sqlParameter;
 
-        protected void Page_Load(object sender, EventArgs e)
-        {
+        protected void Page_Load(object sender, EventArgs e) {
 
             sqlConnection = Sql.GetInstance().GetConnection();
 
-            if (Request.RequestType == "POST")
-            {
+            if(Request.RequestType == "POST") {
                 String username = Request.Form["username"], password = Request.Form["password"];
 
-                if (username != null && password != null)
-                {
+                if(username != null && password != null) {
                     // Validate user against database
                     Boolean validated = this.validateUser(username, password);
                     if(validated == true) {
@@ -42,8 +38,7 @@ namespace Book_See_sharp {
         }
 
 
-        public Boolean validateUser(String username, String password)
-        {
+        public Boolean validateUser(String username, String password) {
             sqlCommand = new SqlCommand("SELECT mobile, passwordId FROM Users LEFT JOIN Passwords ON Passwords.id = Users.PasswordId WHERE mobile = @mobile AND Passwords.password = @password", sqlConnection);
 
             // mobile
@@ -58,21 +53,16 @@ namespace Book_See_sharp {
 
 
             Boolean userValidated = false;
-            try
-            {
+            try {
                 object objectCount = sqlCommand.ExecuteScalar();
-                int countUsers = (int)objectCount;
+                int countUsers = (int) objectCount;
 
 
-                if (countUsers > 0)
+                if(countUsers > 0)
                     userValidated = true;
-            }
-            catch (Exception e)
-            {
+            } catch(Exception e) {
                 Debug.WriteLine(e.Message);
             }
-
-
             return userValidated;
         }
     }
